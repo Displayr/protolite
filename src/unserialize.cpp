@@ -1,5 +1,6 @@
 #include "rexp.pb.h"
 #include <Rcpp.h>
+#include <string.h>
 
 Rcpp::NumericVector unrexp_real(rexp::REXP message){
   int len = message.realvalue_size();
@@ -71,6 +72,20 @@ Rcpp::RObject unrexp_native(rexp::REXP message){
   return unserialize(buf);
 }
 
+bool is_invalid_class_assignment(Rcpp::RObject object, Rcpp::RObject val) {
+  bool isfactor = false;
+  for(int i=0; i < LENGTH(val); i++)
+    if(!strcmp(CHAR(STRING_ELT(val, i)), "factor"))
+      isfactor = true;
+
+  if(isfactor && object.sexp_type() != INTSXP) {
+    Rcpp::warning("ignoring invalid assignment of class 'factor'");
+    return true;
+  }
+
+  return false;
+}
+
 Rcpp::RObject unrexp_object(rexp::REXP message);
 Rcpp::List unrexp_list(rexp::REXP message){
   int len = message.rexpvalue_size();
@@ -105,6 +120,10 @@ Rcpp::RObject unrexp_object(rexp::REXP message){
     for(int i = 0; i < len; i++){
       std::string name = message.attrname(i);
       Rcpp::RObject val = unrexp_object(message.attrvalue(i));
+
+      if (name == "class" && is_invalid_class_assignment(object, val))
+        break;
+
       object.attr(name) = val;
     }
   }
