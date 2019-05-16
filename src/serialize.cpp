@@ -68,7 +68,7 @@ rexp::REXP rexp_native(Rcpp::RObject x, bool skip_native){
   */
   Rcpp::Environment env;
   env["MY_R_OBJECT"] = x;
-  Rcpp::ExpressionVector expr("serialize(MY_R_OBJECT, NULL)");
+  Rcpp::ExpressionVector expr("serialize(MY_R_OBJECT, NULL, version=2)");
   Rcpp::RawVector buf = Rcpp::Rcpp_eval(expr, env);
   out.set_nativevalue(buf.begin(), buf.length());
   return out;
