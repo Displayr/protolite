@@ -17,6 +17,10 @@ cpp_unserialize_geobuf <- function(x) {
     .Call('_protolite_cpp_unserialize_geobuf', PACKAGE = 'protolite', x)
 }
 
+cpp_unserialize_pb_file <- function(path) {
+    .Call('_protolite_cpp_unserialize_pb_file', PACKAGE = 'protolite', path)
+}
+
 cpp_unserialize_pb <- function(x) {
     .Call('_protolite_cpp_unserialize_pb', PACKAGE = 'protolite', x)
 }

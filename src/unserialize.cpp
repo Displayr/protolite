@@ -3,6 +3,8 @@
 #include "rexp.pb.h"
 #include <Rcpp.h>
 #include <string.h>
+#include <iostream>
+#include <fstream>
 
 Rcpp::NumericVector unrexp_real(rexp::REXP message){
   int len = message.realvalue_size();
@@ -130,6 +132,16 @@ Rcpp::RObject unrexp_object(rexp::REXP message){
     }
   }
   return object;
+}
+
+// [[Rcpp::export]]
+Rcpp::RObject cpp_unserialize_pb_file(std::string path) {
+  rexp::REXP message;
+  std::ifstream stream(path);
+  if(!message.ParseFromIstream(&stream))
+    throw std::runtime_error("Failed to parse protobuf message");
+  stream.close();
+  return unrexp_object(message);
 }
 
 // [[Rcpp::export]]

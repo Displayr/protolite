@@ -87,6 +87,27 @@ namespace protolite {
         return Rcpp::as<List >(rcpp_result_gen);
     }
 
+    inline Rcpp::RObject cpp_unserialize_pb_file(std::string path) {
+        typedef SEXP(*Ptr_cpp_unserialize_pb_file)(SEXP);
+        static Ptr_cpp_unserialize_pb_file p_cpp_unserialize_pb_file = NULL;
+        if (p_cpp_unserialize_pb_file == NULL) {
+            validateSignature("Rcpp::RObject(*cpp_unserialize_pb_file)(std::string)");
+            p_cpp_unserialize_pb_file = (Ptr_cpp_unserialize_pb_file)R_GetCCallable("protolite", "_protolite_cpp_unserialize_pb_file");
+        }
+        RObject rcpp_result_gen;
+        {
+            RNGScope RCPP_rngScope_gen;
+            rcpp_result_gen = p_cpp_unserialize_pb_file(Shield<SEXP>(Rcpp::wrap(path)));
+        }
+        if (rcpp_result_gen.inherits("interrupted-error"))
+            throw Rcpp::internal::InterruptedException();
+        if (Rcpp::internal::isLongjumpSentinel(rcpp_result_gen))
+            throw Rcpp::LongjumpException(rcpp_result_gen);
+        if (rcpp_result_gen.inherits("try-error"))
+            throw Rcpp::exception(Rcpp::as<std::string>(rcpp_result_gen).c_str());
+        return Rcpp::as<Rcpp::RObject >(rcpp_result_gen);
+    }
+
     inline Rcpp::RObject cpp_unserialize_pb(Rcpp::RawVector x) {
         typedef SEXP(*Ptr_cpp_unserialize_pb)(SEXP);
         static Ptr_cpp_unserialize_pb p_cpp_unserialize_pb = NULL;

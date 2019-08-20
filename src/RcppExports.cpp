@@ -121,6 +121,40 @@ RcppExport SEXP _protolite_cpp_unserialize_geobuf(SEXP xSEXP) {
     UNPROTECT(1);
     return rcpp_result_gen;
 }
+// cpp_unserialize_pb_file
+Rcpp::RObject cpp_unserialize_pb_file(std::string path);
+static SEXP _protolite_cpp_unserialize_pb_file_try(SEXP pathSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
+    rcpp_result_gen = Rcpp::wrap(cpp_unserialize_pb_file(path));
+    return rcpp_result_gen;
+END_RCPP_RETURN_ERROR
+}
+RcppExport SEXP _protolite_cpp_unserialize_pb_file(SEXP pathSEXP) {
+    SEXP rcpp_result_gen;
+    {
+        Rcpp::RNGScope rcpp_rngScope_gen;
+        rcpp_result_gen = PROTECT(_protolite_cpp_unserialize_pb_file_try(pathSEXP));
+    }
+    Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
+    if (rcpp_isInterrupt_gen) {
+        UNPROTECT(1);
+        Rf_onintr();
+    }
+    bool rcpp_isLongjump_gen = Rcpp::internal::isLongjumpSentinel(rcpp_result_gen);
+    if (rcpp_isLongjump_gen) {
+        Rcpp::internal::resumeJump(rcpp_result_gen);
+    }
+    Rboolean rcpp_isError_gen = Rf_inherits(rcpp_result_gen, "try-error");
+    if (rcpp_isError_gen) {
+        SEXP rcpp_msgSEXP_gen = Rf_asChar(rcpp_result_gen);
+        UNPROTECT(1);
+        Rf_error(CHAR(rcpp_msgSEXP_gen));
+    }
+    UNPROTECT(1);
+    return rcpp_result_gen;
+}
 // cpp_unserialize_pb
 Rcpp::RObject cpp_unserialize_pb(Rcpp::RawVector x);
 static SEXP _protolite_cpp_unserialize_pb_try(SEXP xSEXP) {
@@ -163,6 +197,7 @@ static int _protolite_RcppExport_validate(const char* sig) {
         signatures.insert("RawVector(*cpp_serialize_geobuf)(List,int)");
         signatures.insert("Rcpp::RawVector(*cpp_serialize_pb)(Rcpp::RObject,bool)");
         signatures.insert("List(*cpp_unserialize_geobuf)(Rcpp::RawVector)");
+        signatures.insert("Rcpp::RObject(*cpp_unserialize_pb_file)(std::string)");
         signatures.insert("Rcpp::RObject(*cpp_unserialize_pb)(Rcpp::RawVector)");
     }
     return signatures.find(sig) != signatures.end();
@@ -173,6 +208,7 @@ RcppExport SEXP _protolite_RcppExport_registerCCallable() {
     R_RegisterCCallable("protolite", "_protolite_cpp_serialize_geobuf", (DL_FUNC)_protolite_cpp_serialize_geobuf_try);
     R_RegisterCCallable("protolite", "_protolite_cpp_serialize_pb", (DL_FUNC)_protolite_cpp_serialize_pb_try);
     R_RegisterCCallable("protolite", "_protolite_cpp_unserialize_geobuf", (DL_FUNC)_protolite_cpp_unserialize_geobuf_try);
+    R_RegisterCCallable("protolite", "_protolite_cpp_unserialize_pb_file", (DL_FUNC)_protolite_cpp_unserialize_pb_file_try);
     R_RegisterCCallable("protolite", "_protolite_cpp_unserialize_pb", (DL_FUNC)_protolite_cpp_unserialize_pb_try);
     R_RegisterCCallable("protolite", "_protolite_RcppExport_validate", (DL_FUNC)_protolite_RcppExport_validate);
     return R_NilValue;
@@ -183,6 +219,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_protolite_R_start_protobuf", (DL_FUNC) &_protolite_R_start_protobuf, 0},
     {"_protolite_cpp_serialize_pb", (DL_FUNC) &_protolite_cpp_serialize_pb, 2},
     {"_protolite_cpp_unserialize_geobuf", (DL_FUNC) &_protolite_cpp_unserialize_geobuf, 1},
+    {"_protolite_cpp_unserialize_pb_file", (DL_FUNC) &_protolite_cpp_unserialize_pb_file, 1},
     {"_protolite_cpp_unserialize_pb", (DL_FUNC) &_protolite_cpp_unserialize_pb, 1},
     {"_protolite_RcppExport_registerCCallable", (DL_FUNC) &_protolite_RcppExport_registerCCallable, 0},
     {NULL, NULL, 0}
