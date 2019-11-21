@@ -4,6 +4,6 @@ rules:
     upstream: jeroen:master    # change `wei` to the owner of upstream repo
     mergeMethod: none
     assignees:
-      - mwmclean
+      - jefshe
     reviewers:
-      - mwmclean
+      - jefshe
