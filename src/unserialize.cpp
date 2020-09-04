@@ -1,6 +1,10 @@
 #include "rexp.pb.h"
 #include <Rcpp.h>
 #include <string.h>
+#include <limits>
+#include <google/protobuf/io/zero_copy_stream_impl_lite.h>
+#include <google/protobuf/io/coded_stream.h>
+using namespace google::protobuf;
 
 Rcpp::NumericVector unrexp_real(rexp::REXP message){
   int len = message.realvalue_size();
@@ -133,7 +137,12 @@ Rcpp::RObject unrexp_object(rexp::REXP message){
 // [[Rcpp::export]]
 Rcpp::RObject cpp_unserialize_pb(Rcpp::RawVector x){
   rexp::REXP message;
-  if(!message.ParseFromArray(x.begin(), x.size()))
+  // We manually construct our own CodedInputStream because ParseFromArray() would
+  // impose the 64MB limit on protobuf streams.  
+  io::ArrayInputStream input_stream(x.begin(), x.size());
+  io::CodedInputStream coded_stream(&input_stream);
+  coded_stream.SetTotalBytesLimit(INT_MAX, INT_MAX/2);  // The serilizer hangs when the output is too large, so some warning is helpful
+  if(!message.ParseFromCodedStream(&coded_stream))
     throw std::runtime_error("Failed to parse protobuf message");
   return unrexp_object(message);
 }
