@@ -5,7 +5,7 @@
 #include <string.h>
 #include <iostream>
 #include <fstream>
-#include <google/protobuf/io/zero_copy_stream.h>
+#include <google/protobuf/io/zero_copy_stream_impl_lite.h>
 #include <google/protobuf/io/coded_stream.h>
 using namespace google::protobuf;
 
@@ -152,7 +152,7 @@ Rcpp::RObject cpp_unserialize_pb(Rcpp::RawVector x){
   rexp::REXP message;
   // We manually construct our own CodedInputStream because ParseFromArray() would
   // impose the 64MB limit on protobuf streams.  
-  io::ZeroCopyInputStream input_stream(x.begin(), x.size());
+  io::ArrayInputStream input_stream(x.begin(), x.size());
   io::CodedInputStream coded_stream(&input_stream);
   if(!message.ParseFromCodedStream(&coded_stream))
     throw std::runtime_error("Failed to parse protobuf message");
