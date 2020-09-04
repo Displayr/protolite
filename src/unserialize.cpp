@@ -155,7 +155,7 @@ Rcpp::RObject cpp_unserialize_pb(Rcpp::RawVector x){
   // impose the 64MB limit on protobuf streams.  
   io::ArrayInputStream input_stream(x.begin(), x.size());
   io::CodedInputStream coded_stream(&input_stream);
-  coded_stream.SetTotalBytesLimit(INT_MAX);
+  coded_stream.SetTotalBytesLimit(INT_MAX, INT_MAX/2);  // The serilizer hangs when the output is too large, so some warning is helpful
   if(!message.ParseFromCodedStream(&coded_stream))
     throw std::runtime_error("Failed to parse protobuf message");
   return unrexp_object(message);
