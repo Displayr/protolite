@@ -5,6 +5,7 @@
 #include <string.h>
 #include <iostream>
 #include <fstream>
+#include <limits>
 #include <google/protobuf/io/zero_copy_stream_impl_lite.h>
 #include <google/protobuf/io/coded_stream.h>
 using namespace google::protobuf;
@@ -154,6 +155,7 @@ Rcpp::RObject cpp_unserialize_pb(Rcpp::RawVector x){
   // impose the 64MB limit on protobuf streams.  
   io::ArrayInputStream input_stream(x.begin(), x.size());
   io::CodedInputStream coded_stream(&input_stream);
+  coded_stream.SetTotalBytesLimit(INT_MAX);
   if(!message.ParseFromCodedStream(&coded_stream))
     throw std::runtime_error("Failed to parse protobuf message");
   return unrexp_object(message);
