@@ -5,6 +5,9 @@
 #include <string.h>
 #include <iostream>
 #include <fstream>
+#include <google/protobuf/io/zero_copy_stream.h>
+#include <google/protobuf/io/coded_stream.h>
+using namespace google::protobuf;
 
 Rcpp::NumericVector unrexp_real(rexp::REXP message){
   int len = message.realvalue_size();
