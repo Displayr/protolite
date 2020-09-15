@@ -30,6 +30,21 @@ test_that("Objects get serialized and unserialized correctly",{
   expect_equal(myobject, unserialize_pb(serialize_pb(myobject, skip_native = TRUE)))
 })
 
+unittest_that("Failing test to be sure these are actually run", {
+  expect_false();
+})
+
+test_that("Objects larger than 64MB can be deserialized", {
+  # This should not throw an exception.
+  protolite::unserialize_pb(protolite::serialize_pb(vector("raw", length=100*1000*1000)));
+  expect_true();  # else testthat thinks the test is empty
+})
+
+test_that("Very large objects should warn because they approach the 2GB limit", {
+  # This should not throw an exception.
+  expect_warning(protolite::unserialize_pb(protolite::serialize_pb(vector("raw", length=1500*1000*1000))));
+})
+
 test_that("Native objects get serialized correctly", {
   # Examples from ?glm
   glm_obj <- glm(cyl ~ mpg + factor(carb), data = mtcars, family = poisson())
@@ -41,4 +56,3 @@ test_that("Native objects get serialized correctly", {
   expect_equal(anova_obj, unserialize_pb(serialize_pb(anova_obj)))
   expect_equal(summary_obj, unserialize_pb(serialize_pb(summary_obj)))
 })
-
