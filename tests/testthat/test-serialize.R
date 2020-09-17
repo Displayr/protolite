@@ -33,12 +33,12 @@ test_that("Objects get serialized and unserialized correctly",{
 test_that("Objects larger than 64MB can be deserialized", {
   # This should not throw an exception.
   protolite::unserialize_pb(protolite::serialize_pb(vector("raw", length=100*1000*1000)));
-  expect_true();  # else testthat thinks the test is empty
+  expect_true(TRUE);  # else testthat thinks the test is empty
 })
 
 test_that("Very large objects should warn because they approach the 2GB limit", {
   # This should not throw an exception.
-  expect_warning(protolite::unserialize_pb(protolite::serialize_pb(vector("raw", length=1500*1000*1000))));
+  expect_warning(protolite::unserialize_pb(protolite::serialize_pb(vector("raw", length=1100*1000*1000))));
 })
 
 test_that("Native objects get serialized correctly", {
