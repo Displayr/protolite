@@ -30,10 +30,6 @@ test_that("Objects get serialized and unserialized correctly",{
   expect_equal(myobject, unserialize_pb(serialize_pb(myobject, skip_native = TRUE)))
 })
 
-unittest_that("Failing test to be sure these are actually run", {
-  expect_false();
-})
-
 test_that("Objects larger than 64MB can be deserialized", {
   # This should not throw an exception.
   protolite::unserialize_pb(protolite::serialize_pb(vector("raw", length=100*1000*1000)));
