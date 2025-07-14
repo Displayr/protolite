@@ -8,3 +8,6 @@
 ^python
 ^windows
 ^README.md$
+^\.github
+^\.github$
+^configure.log$
