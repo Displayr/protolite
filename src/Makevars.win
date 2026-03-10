@@ -7,7 +7,7 @@ PROTOCS = geobuf.pb.h mvt.pb.h rexp.pb.h
 ifneq ($(PKG_LIBS),)
 ifneq ($(PROTOC_VERSION),)
 $(info using $(PKG_CONFIG_NAME) and $(PROTOC_VERSION) from Rtools)
-PKG_CPPFLAGS := $(subst -Wnon-virtual-dtor,,$(shell $(PKG_CONFIG) --cflags $(PKG_CONFIG_NAME))) -DUSENEWAPI
+PKG_CPPFLAGS := $(shell $(PKG_CONFIG) --cflags $(PKG_CONFIG_NAME)) -DUSENEWAPI
 endif
 endif
 
