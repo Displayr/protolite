@@ -44,8 +44,8 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
 fi
 
 # Find compiler
-CXX11=$(${R_HOME}/bin/R CMD config CXX11)
-CXX11STD=$(${R_HOME}/bin/R CMD config CXX11STD)
+CXX17=$(${R_HOME}/bin/R CMD config CXX17)
+CXX17STD=$(${R_HOME}/bin/R CMD config CXX17STD)
 CPPFLAGS=$(${R_HOME}/bin/R CMD config CPPFLAGS)
 
 # For debugging
@@ -53,7 +53,7 @@ echo "Using PKG_CFLAGS=$PKG_CFLAGS"
 echo "Using PKG_LIBS=$PKG_LIBS"
 
 # Test configuration
-echo "#include $PKG_TEST_HEADER" | ${CXX11} ${CXX11STD} -E ${CPPFLAGS} ${PKG_CFLAGS} -xc++ - >/dev/null
+echo "#include $PKG_TEST_HEADER" | ${CXX17} ${CXX17STD} -E ${CPPFLAGS} ${PKG_CFLAGS} -xc++ - >/dev/null
 
 # Customize the error
 if [ $? -ne 0 ]; then
