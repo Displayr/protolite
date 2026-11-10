@@ -8,3 +8,5 @@
 ^python
 ^windows
 ^README.md$
+^AGENTS\.md$
+^CLAUDE\.md$
